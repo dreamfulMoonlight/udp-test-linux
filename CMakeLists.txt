@@ -6,5 +6,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(BUILD_SHARED "whether to build dynamics library" ON)
 
+# include(cmake/dep.cmake)
+
+# if(NOT DEFINED OpenCV_LIBS)
+#     include(OpenCV)
+#     find_package(OpenCV REQUIRED)
+# endif()
+# include_directories(${OpenCV_INCLUDE_DIRS})
+
 add_subdirectory(src)
 add_subdirectory(examples)

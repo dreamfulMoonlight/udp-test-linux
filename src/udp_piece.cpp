@@ -85,7 +85,7 @@ int udp_piece_cut(udp_piece_t *udp_piece, void *buf, int size)
     if (!udp_piece || size < 0)
         return 0;
 
-    udp_piece->send_ptr = (char *)buf;
+    udp_piece->send_ptr = (uint8_t *)buf;
     udp_piece->total_size = size;
     udp_piece->left = size % PIECE_FIX_SIZE; // 最后一个分片数据的大小
     udp_piece->total_pieces =
@@ -101,7 +101,7 @@ int udp_piece_cut(udp_piece_t *udp_piece, void *buf, int size)
  * @param got_piece_size 获取指定编号分片数据的长度
  * @return 返回指定分片编号的数据指针
  */
-char *udp_piece_get(udp_piece_t *udp_piece, int index, int *got_piece_size)
+uint8_t *udp_piece_get(udp_piece_t *udp_piece, int index, int *got_piece_size)
 {
     int piece_size = 0;
 
@@ -196,7 +196,7 @@ int udp_piece_merge(udp_piece_t *udp_piece, void *buf, int size)
                 udp_piece->recv_pieces = 0;
                 if (udp_piece->recv_buf)
                     free(udp_piece->recv_buf);
-                udp_piece->recv_buf = (char *)malloc(udp_piece->total_size + 1);
+                udp_piece->recv_buf = (uint8_t *)malloc(udp_piece->total_size + 1);
                 if (!udp_piece->recv_buf)
                 {
                     UDP_ERR("malloc recv_buf filed\n");
@@ -217,7 +217,7 @@ int udp_piece_merge(udp_piece_t *udp_piece, void *buf, int size)
                 udp_piece->recv_pieces = 1;
                 if (udp_piece->recv_buf)
                     free(udp_piece->recv_buf);
-                udp_piece->recv_buf = (char *)malloc(udp_piece->total_size + 1);
+                udp_piece->recv_buf = (uint8_t *)malloc(udp_piece->total_size + 1);
                 if (!udp_piece->recv_buf)
                 {
                     UDP_ERR("malloc recv_buf filed\n");
@@ -270,11 +270,11 @@ int udp_piece_merge_ex(udp_piece_t *udp_piece, void *buf, int size)
     int get_all_pieces = 0;
     int bytes_to_write = 0;
     int bytes_to_read = 0;
-    char value0 = 0;
-    char value1 = 0;
+    uint8_t value0 = 0;
+    uint8_t value1 = 0;
 
     // 先将接收到的数据buf拷贝到环形缓存中
-    bytes_to_write = circular_buffer_write(udp_piece->circular_buffer, (char *)buf, size);
+    bytes_to_write = circular_buffer_write(udp_piece->circular_buffer, (uint8_t *)buf, size);
     if (bytes_to_write != size)
     {
         UDP_ERR("%s(%d) There is not enough space, only %d bytes, but need %d bytes\n",
@@ -292,6 +292,7 @@ int udp_piece_merge_ex(udp_piece_t *udp_piece, void *buf, int size)
         circular_buffer_get(udp_piece->circular_buffer, 1, &value1);
         if (value0 == 0xAF && value1 == 0xAE) // 查找是否有头部字节，如果有的话退出
         {
+            UDP_DEBUG("is header");
             break;
         }
         else
@@ -337,7 +338,7 @@ int udp_piece_merge_ex(udp_piece_t *udp_piece, void *buf, int size)
                 if (udp_piece->recv_buf)
                     free(udp_piece->recv_buf);
                 /* 分配能够存储一个分片组所有的数据的空间 */
-                udp_piece->recv_buf = (char *)malloc(udp_piece->total_size + 1);
+                udp_piece->recv_buf = (uint8_t *)malloc(udp_piece->total_size + 1);
                 if (!udp_piece->recv_buf)
                 {
                     return (-1);
@@ -367,7 +368,7 @@ int udp_piece_merge_ex(udp_piece_t *udp_piece, void *buf, int size)
                 udp_piece->recv_len = 0;
                 if (udp_piece->recv_buf)
                     free(udp_piece->recv_buf);
-                udp_piece->recv_buf = (char *)malloc(udp_piece->total_size + 1);
+                udp_piece->recv_buf = (uint8_t *)malloc(udp_piece->total_size + 1);
                 if (!udp_piece->recv_buf)
                 {
                     return (-1);

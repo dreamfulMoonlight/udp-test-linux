@@ -23,16 +23,16 @@ extern "C"
 
     typedef struct udp_piece
     {
-        int recv_pieces;                                // 当前已经接收的分片数量
-        int total_size;                                 // 总数据大小
-        int total_pieces;                               // 分片总数量
-        int left;                                       // 最后一片的大小
-        int piece_size;                                 // 分片大小
-        int recv_len;                                   // 接收数据的长度
-        char *recv_buf;                                 // 保存接收数据
-        char *send_ptr;                                 // 指向发送数据的buffer
-        char piece_buf[PIECE_FIX_SIZE + HEAD_SIZE + 1]; //单帧的buffer
-        circular_buffer_t *circular_buffer;             // 环形缓存
+        int recv_pieces;                                   // 当前已经接收的分片数量
+        int total_size;                                    // 总数据大小
+        int total_pieces;                                  // 分片总数量
+        int left;                                          // 最后一片的大小
+        int piece_size;                                    // 分片大小
+        int recv_len;                                      // 接收数据的长度
+        uint8_t *recv_buf;                                 // 保存接收数据
+        uint8_t *send_ptr;                                 // 指向发送数据的buffer
+        uint8_t piece_buf[PIECE_FIX_SIZE + HEAD_SIZE + 1]; //单帧的buffer
+        circular_buffer_t *circular_buffer;                // 环形缓存
     } udp_piece_t;
 
     /**
@@ -70,7 +70,7 @@ extern "C"
      * @param got_piece_size 获取指定编号分片数据的长度
      * @return 返回指定分片编号的数据指针
      */
-    char *udp_piece_get(udp_piece_t *udp_piece, int index, int *got_piece_size);
+    uint8_t *udp_piece_get(udp_piece_t *udp_piece, int index, int *got_piece_size);
 
     /**
      * @brief 重组分片

@@ -25,11 +25,11 @@ extern "C"
 
     void circular_buffer_reset(circular_buffer_t *circular_buffer);
 
-    int circular_buffer_write(circular_buffer_t *circular_buffer, const char *data, int bytes);
+    int circular_buffer_write(circular_buffer_t *circular_buffer, const uint8_t *data, int bytes);
 
-    int circular_buffer_read(circular_buffer_t *circular_buffer, char *data, int bytes);
+    int circular_buffer_read(circular_buffer_t *circular_buffer, uint8_t *data, int bytes);
 
-    int circular_buffer_get(circular_buffer_t *circular_buffer, int index, char *value);
+    int circular_buffer_get(circular_buffer_t *circular_buffer, int index, uint8_t *value);
 
     void circular_buffer_pop_front(circular_buffer_t *circular_buffer, const int pop_size);
 

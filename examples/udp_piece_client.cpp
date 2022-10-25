@@ -76,15 +76,15 @@ void echo_client(int sock)
             char *buf;
             int size;
             buf = (char *)udp_piece_get(udp_piece, i, &size);
-            printf("向服务器发送分片[%d]长度：%d, buf = %p\n", i * 2, 5, buf);
+            printf("向服务器发送分片[%d]长度：%d, buf = %p,socket size=%ld\n", i * 2, 5, buf, sizeof(servaddr));
             // send_len = sendto(sock, buf, size, 0, (struct sockaddr *)&servaddr, sizeof(servaddr));
             sendto(sock, buf, 5, 0, (struct sockaddr *)&servaddr, sizeof(servaddr));
             printf("向服务器发送分片[%d]长度：%d, buf = %p\n", i * 2 + 1, size - 5, buf);
-            sendto(sock, buf + 5, size - 5, 0, (struct sockaddr *)&servaddr, sizeof(servaddr));
+            send_len = sendto(sock, buf + 5, size - 5, 0, (struct sockaddr *)&servaddr, sizeof(servaddr));
             if (send_len != size)
             {
-                // printf("An error occurred in this call of  sendto, need send len = %d, but actual len = %d\n",
-                //	size, send_len);
+                printf("An error occurred in this call of  sendto, need send len = %d, but actual len = %d\n",
+                       size, send_len);
             }
         }
 

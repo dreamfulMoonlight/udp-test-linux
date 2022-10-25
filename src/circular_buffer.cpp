@@ -44,7 +44,7 @@ void circular_buffer_reset(circular_buffer_t *circular_buffer)
     circular_buffer->size_ = 0;
 }
 
-int circular_buffer_write(circular_buffer_t *circular_buffer, const char *data, int bytes)
+int circular_buffer_write(circular_buffer_t *circular_buffer, const uint8_t *data, int bytes)
 {
     if (bytes == 0)
         return (0);
@@ -74,7 +74,7 @@ int circular_buffer_write(circular_buffer_t *circular_buffer, const char *data, 
     return (bytes_to_write);
 }
 
-int circular_buffer_read(circular_buffer_t *circular_buffer, char *data, int bytes)
+int circular_buffer_read(circular_buffer_t *circular_buffer, uint8_t *data, int bytes)
 {
     if (bytes == 0)
         return (0);
@@ -105,7 +105,7 @@ int circular_buffer_read(circular_buffer_t *circular_buffer, char *data, int byt
 }
 
 /* 通过索引取值 */
-int circular_buffer_get(circular_buffer_t *circular_buffer, int index, char *value)
+int circular_buffer_get(circular_buffer_t *circular_buffer, int index, uint8_t *value)
 {
     if (index >= circular_buffer->size_)
         return (-1);
